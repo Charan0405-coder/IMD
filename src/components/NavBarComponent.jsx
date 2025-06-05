@@ -20,11 +20,15 @@ import {
   Logout,
   AccountCircleOutlined,
 } from "@mui/icons-material";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../App";
 
 export default function NavBarComponent() {
   const [notificationAnchorEl, setNotificationAnchorEl] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
+  const navigate = useNavigate();
+  const { setIsAuthenticated } = useContext(AuthContext);
   // handleNotificationClicked
   const open = Boolean(anchorEl);
   const notificationOpen = Boolean(notificationAnchorEl);
@@ -40,6 +44,12 @@ export default function NavBarComponent() {
   };
   const notificationHandleClose = () => {
     setNotificationAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    handleClose();
+    navigate('/login');
   };
 
   return (
@@ -68,7 +78,7 @@ export default function NavBarComponent() {
                     textDecoration: "none",
                   }}
                 >
-                  ADIMS
+                  IMD
                 </Typography>
 
                 <Box
@@ -104,10 +114,10 @@ export default function NavBarComponent() {
                     aria-haspopup="true"
                   >
                     <Tooltip title="account settings">
-                      <Avatar sx={{ width: 32, height: 32 }}>Z</Avatar>
+                      <Avatar sx={{ width: 32, height: 32 }}>I</Avatar>
                     </Tooltip>
                   </IconButton>
-                  <Typography fontFamily={"Inter"}>ADMI ZAKARYAE</Typography>
+                  <Typography fontFamily={"Inter"}>IMD User</Typography>
                 </Box>
 
                 <Menu
@@ -130,7 +140,7 @@ export default function NavBarComponent() {
                     </ListItemIcon>
                     Settings
                   </MenuItem>
-                  <MenuItem>
+                  <MenuItem onClick={handleLogout}>
                     <ListItemIcon>
                       <Logout fontSize="small" />
                     </ListItemIcon>
